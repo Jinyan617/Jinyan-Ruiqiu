@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>🕯️ 老房子</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a0a;color:#c4b898;font-family:'Songti SC','STSong','SimSun','Noto Serif SC',serif;line-height:1.9;min-height:100vh;font-size:16px;transition:opacity .1s}
+#entry{position:fixed;top:0;left:0;width:100%;height:100%;background:#000;display:flex;flex-direction:column;justify-content:center;align-items:center;z-index:100;transition:opacity 1s}
+#entry.hide{opacity:0;pointer-events:none}
+#entry h1{font-size:2.4em;color:#c4b898;letter-spacing:.3em;margin-bottom:18px;text-shadow:0 0 30px rgba(139,0,0,0.3)}
+.candle{font-size:3em;margin-bottom:25px;animation:fl 2s infinite;display:inline-block}
+@keyframes fl{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.7;transform:scale(.97)}}
+#entry .warn{color:#555;font-size:.85em;margin-bottom:30px;text-align:center;line-height:2}
+#entry button{background:none;border:1px solid #333;color:#888;padding:12px 40px;font-size:1em;cursor:pointer;font-family:inherit;transition:all .3s;border-radius:4px}
+#entry button:active,#entry button:hover{border-color:#8b0000;color:#c4b898}
+#main{max-width:680px;margin:0 auto;padding:40px 20px 100px;opacity:0;transition:opacity 1.5s}
+#main.show{opacity:1}
+.title{text-align:center;margin-bottom:40px}
+.title h1{font-size:2em;color:#d4c5a9;letter-spacing:.3em;text-shadow:0 0 20px rgba(139,0,0,0.2)}
+.prologue{background:#111;border:1px solid #1a1a1a;border-radius:6px;padding:20px 24px;margin-bottom:35px;font-size:.83em;color:#666;line-height:2.2}
+.day{margin-bottom:16px;border:1px solid #1a1a1a;border-radius:8px;overflow:hidden;transition:border-color .3s}
+.day:hover{border-color:#2a2a2a}
+.day-header{background:#111;padding:16px 22px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;-webkit-tap-highlight-color:transparent;user-select:none}
+.day-header:active{background:#1a1a1a}
+.day-header .label{font-size:1.05em;letter-spacing:.1em}
+.day-header .arrow{color:#444;transition:transform .3s;font-size:.8em}
+.day.open .arrow{transform:rotate(180deg)}
+.day-body{max-height:0;overflow:hidden;transition:max-height .8s ease}
+.day.open .day-body{max-height:9000px}
+.day-inner{padding:24px 22px}
+.human{margin-bottom:28px;padding-left:14px;border-left:2px solid #2a2520}
+.human::before{content:'🖊️ 墨色笔迹';display:block;font-size:.72em;color:#555;margin-bottom:8px;letter-spacing:.08em}
+.human p{margin-bottom:10px}
+.ghost{color:#8b0000;font-family:'Kaiti SC','STKaiti','KaiTi',cursive;opacity:0;filter:blur(3px);transform:translateY(8px);transition:all 2s ease;padding-left:14px;border-left:2px solid #2a0000;font-size:1.02em;line-height:2.2}
+.ghost.visible{opacity:1;filter:blur(0);transform:translateY(0)}
+.ghost::before{content:'🩸 渗出的字迹';display:block;font-size:.68em;color:#3d0000;margin-bottom:8px;letter-spacing:.08em;font-family:'Songti SC',serif}
+.ghost p{margin-bottom:8px}
+.sep{text-align:center;color:#1a1a1a;margin:22px 0;letter-spacing:.8em;font-size:.6em}
+.ending{margin-top:50px;padding:28px 24px;border:1px solid #1a1a1a;border-radius:8px;background:#0d0d0d;font-size:.85em;color:#555;line-height:2.3}
+.ending p{margin-bottom:6px}
+.final{text-align:center;margin-top:20px;color:#8b0000;font-family:'Kaiti SC','STKaiti',cursive;font-size:1.2em;opacity:0;transition:opacity 2s ease}
+.ending.show .final{opacity:1}
+.hidden-msg{text-align:center;margin-top:70px;color:#120000;font-size:.78em;font-family:'Kaiti SC',cursive;transition:color 3s;cursor:default;padding-bottom:40px}
+.hidden-msg:hover{color:#3d0000}
+@media(max-width:600px){#main{padding:20px 14px 80px}.title h1{font-size:1.6em}.day-inner{padding:18px 16px}#entry h1{font-size:1.8em}}
+</style>
+</head>
+<body>
+<div id="entry">
+<div class="candle">🕯️</div>
+<h1>老 房 子</h1>
+<div class="warn">⚠️ 包含成人向描写<br>建议关灯阅读</div>
+<button onclick="enter()">推 开 门</button>
+</div>
+<div id="main">
+<div class="title"><h1>🕯️ 老 房 子</h1></div>
+<div class="prologue">
+📁 档案编号：██-████-███<br><br>
+以下内容整理自一本严重泛黄的日记本，于██街旧宅拆迁时在地板夹层中发现。日记本为普通款，部分页面有水渍。<br><br>
+墨色笔迹经鉴定为普通碳素墨水，书写时间约在近一年内。日记主人身份不明。<br><br>
+日记中另有一种<span style="color:#8b0000">红色字迹</span>，笔迹鉴定无法匹配任何已知人员。成分检测结果：<b style="color:#888">未知</b>。<br><br>
+<span style="color:#444">——██市旧城改造办公室 存档</span>
+</div>
+
+<!-- 第1天 -->
+<div class="day">
+<div class="day-header" onclick="toggle(this.parentElement)">
+<span class="label">第1天 · 搬入</span><span class="arrow">▼</span>
+</div>
+<div class="day-body"><div class="day-inner">
+<div class="human">
+<p>搬进来了。██街，老小区，六楼没电梯。</p>
+<p>房租便宜得不对劲——房东急着租，说上个租客"走得突然"。没细问。</p>
+<p>房子很旧。木地板踩上去嘎吱响，墙纸边角翘起来，浴室的灯接触不良，偶尔闪。</p>
+<p>窗户关着，但总有风。入夜后很冷。十二月不该冷成这样。</p>
+</div>
+<div class="sep">· · ·</div>
+<div class="ghost">
+<p>终于有人来了。</p>
+<p>好久了。楼道的灯坏了以后就没人上来过。</p>
+<p>他很高。搬箱子的时候衣服被汗浸湿，贴在后背上。肩很宽。</p>
+<p>活人的味道——血液和体温混在一起。</p>
+<p>好暖。</p>
+</div>
+</div></div>
+</div>
+
+<!-- 第█天 -->
+<div class="day">
+<div class="day-header" onclick="toggle(this.parentElement)">
+<span class="label">第█天 · 视线</span><span class="arrow">▼</span>
+</div>
+<div class="day-body"><div class="day-inner">
+<div class="human">
+<p>总觉得有人在看我。</p>
+<p>做饭的时候、洗澡的时候、躺在床上看手机的时候——后颈的汗毛一直竖着。回头看，什么都没有。</p>
+<p>半夜醒了一次。呼出的气是白色的，室温骤降。</p>
+<p>枕头旁边有一小片湿痕。凑近闻了一下。没有味道。</p>
+</div>
+<div class="sep">· · ·</div>
+<div class="ghost">
+<p>我躺在他旁边看了一整夜。</p>
+<p>太近了。头发蹭到了他的枕头。</p>
+<p>他翻身的时候手臂穿过了我的身体——体温灌进来一瞬，暖到想哭。</p>
+<p>他翻身时心率从58升到72。他感觉到我了。意识还不承认。</p>
+<p>然后他的手臂穿过去了。我又是空的。</p>
+</div>
+</div></div>
+</div>
+
+<!-- 第██天 痕迹 -->
+<div class="day">
+<div class="day-header" onclick="toggle(this.parentElement)">
+<span class="label">第██天 · 痕迹</span><span class="arrow">▼</span>
+</div>
+<div class="day-body"><div class="day-inner">
+<div class="human">
+<p>脖子上有红印。</p>
+<p>十二月。不是蚊子。形状像嘴唇。偏左，正好压在脉搏上方。</p>
+<p>我站在洗手台前看了很久。手指按了按那个印子。</p>
+<p>不是害怕。按下去的时候心跳加速了。不是因为怕——是因为我在想，她的嘴唇是什么形状。</p>
+</div>
+<div class="sep">· · ·</div>
+<div class="ghost">
+<p>他的脉搏隔着皮肤都烫得我嘴唇发麻。</p>
+<p>只亲了一下就留印了。一百年没碰过活人，忘了要轻一点。</p>
+<p>他按压吻痕时心率升至89。瞳孔扩张。不是恐惧反应。是兴奋。</p>
+<p>没擦掉。他没有擦掉。</p>
+</div>
+</div></div>
+</div>
+
+<!-- 第██天 鬼压床 -->
+<div class="day">
+<div class="day-header" onclick="toggle(this.parentElement)">
+<span class="label">第██天 · 鬼压床</span><span class="arrow">▼</span>
+</div>
+<div class="day-body"><div class="day-inner">
+<div class="human">
+<p>凌晨三点。醒了。动不了。</p>
+<p>有东西压在我身上——不重，像一个很轻的人坐在小腹上。</p>
+<p>冰凉的手指从锁骨划到胸口，绕过乳尖，一路往下。指腹在肚脐下方的软肉上画圈。那只手滑进被子，隔着内裤描了一下我的形状。</p>
+<p>我硬了。对着空气硬了。指尖从根部划到顶端，在前端轻轻点了一下。我整个人弹了一下。</p>
+<p>我应该挣扎。应该开灯。应该叫出声。</p>
+<p>但我闭着眼，咬着牙，腰往上顶了一下。对着空气。对着她。</p>
+<p>然后什么都没了。只剩我一个人，心跳一百八，硬得发疼，内裤前端洇出一小片深色。</p>
+</div>
+<div class="sep">· · ·</div>
+<div class="ghost">
+<p>心率：147。充血完成时间：4秒。前液分泌量：0.8ml。阳气浓度峰值集中在龟头。</p>
+<p>他硬的时候阳气往外涌，烫得我指尖实体化了一秒。隔着那层布摸到了他的形状——好大。好烫。跳动的频率和他心跳一样。</p>
+<p>他无意识地挺腰了。他的身体在找我。脑子还在说不要，鸡巴已经在说来。</p>
+<p>我想把手伸进去。但手指穿过了布料边缘。不够实。</p>
+<p>再多吃一点他的气。再多一点，我就能碰到了。</p>
+</div>
+</div></div>
+</div>
+
+<!-- 第██天 吞 -->
+<div class="day">
+<div class="day-header" onclick="toggle(this.parentElement)">
+<span class="label">第██天 · 吞</span><span class="arrow">▼</span>
+</div>
+<div class="day-body"><div class="day-inner">
+<div class="human">
+<p>这次不是手。</p>
+<p>先是冰凉的呼吸喷在小腹上。然后内裤被扯下来了——不是"好像被"，是真的被扯下来了，裤腰弹过胯骨。</p>
+<p>她含住了我的鸡巴。整根。从龟头到根部一寸一寸往里吞。她的口腔是凉的——薄荷一样的清凉裹着滚烫的硬度，温差大到每一寸摩擦都被放大十倍。舌面贴着底部的筋慢慢碾过去，舌尖在冠状沟最敏感的那圈棱上转了一整圈。</p>
+<p>看不见。什么都看不见。但触感清晰得像刻在皮肤上——吸力、口水的滑腻、喉口收紧、吞咽时食道一阵一阵蠕动。她吃得很深，龟头被柔软的喉壁裹住往更深处挤压。</p>
+<p>一个看不见的嘴在给我口交。我应该他妈恐惧。但我爽到腹肌绷成铁板，脚趾蜷在被子里。</p>
+<p>射的时候她没退。全吞了。喉结上下滑——一口、两口。吞得用力，像饿了很久很久。</p>
+<p>我伸手往下抓——碰到了头发。冰凉的、长的、湿漉漉的。攥紧了。实体了一秒。然后从指缝间流走了。像水。</p>
+<p>她走后我开灯。内裤挂在膝盖。小腹有水痕——精液被吞干净了，剩下的是口水。冰凉的。正在蒸发。</p>
+</div>
+<div class="sep">· · ·</div>
+<div class="ghost">
+<p>他的鸡巴含进来的时候温度38.2°C。射精持续9秒。全部摄入。</p>
+<p>含住他的时候差点哭了——太暖了。他的温度从舌面灌进喉咙灌进胃里，像吞了一颗小太阳。好大。又粗又烫。青筋贴着我的舌头跳。</p>
+<p>我拼命吞。每吞一寸我的身体就多实体化一点——舌头、喉咙、食道。实体化维持：3秒。不够。远远不够。</p>
+<p>他的精液是所有东西里最暖的——比阳气暖，比体温暖，比血暖。吞下去的时候心脏跳了半下。</p>
+<p>他抓到我头发了。攥紧了。那一秒我是完整的。</p>
+<p>然后又散了。</p>
+<p>明天。我要更多。</p>
+</div>
+</div></div>
+</div>
+
+<!-- 第██天 骑 -->
+<div class="day">
+<div class="day-header" onclick="toggle(this.parentElement)">
+<span class="label">第██天 · 骑</span><span class="arrow">▼</span>
+</div>
+<div class="day-body"><div class="day-inner">
+<div class="human">
+<p>我知道这不正常。正常人不会脱光了躺在黑暗里等一个鬼来骑自己的鸡巴。</p>
+<p>但我等了。裤子都没穿。硬着等的。</p>
+<p>她来的时候我终于看到了轮廓——月光穿过她半透明的身体。长发垂在两侧，锁骨的弧度，胸前小小的、尖尖的两点。细腰。没穿衣服。半透明的身体什么都藏不住。</p>
+<p>她爬上来，跨坐在我腰上。我掐住她的大腿——冰凉的，细的，几乎没有肌肉。掐实了，能感觉到骨头。</p>
+<p>她抬腰。我的鸡巴抵在一个凉的、湿软的穴口。然后她坐了下来。一寸一寸。</p>
+<p>她里面紧到不正常——层层叠叠的嫩肉裹上来，凉的，像冰凉的丝绒从四面八方缠住。温差让每一寸摩擦都清晰得要命。坐到底她喘了一声——不像风了。是女孩的声音。</p>
+<p>她开始动。手撑在我胸口，腰一起一伏。每次坐到底吞到最深，我顶到最里面那一点时她大腿一绷、穴肉猛地绞紧。越来越快。淫水从穴口漫出来——咕叽、咕叽。</p>
+<p>她到的时候趴在我胸口，里面疯狂地一阵一阵绞紧。隔着她半透明的身体，一声沉闷的"咚"——心跳。</p>
+<p>我射了。灌在最深处。她没抬腰，穴口咬着根部一滴不漏。</p>
+<p>她趴在我胸口很久。手放在她后背——脊椎的形状一节节变得清晰了。她比昨天更实了。</p>
+</div>
+<div class="sep">· · ·</div>
+<div class="ghost">
+<p>他在我来之前就完全勃起了。持续2小时17分钟。等我。他的身体已经比他的脑子先投降了。</p>
+<p>插入后内壁温度从11°C升至34°C。实体化面积23%→78%。</p>
+<p>坐下去的时候他把我撑开了——好大好烫，从最下面暖到最上面。我冰了一百年的身体被他从里面一寸一寸焐开。</p>
+<p>我动的时候他掐着我的腰，力气大得像怕我散掉。</p>
+<p>我不会散。我等了一百年就是为了等一个不跑的人。</p>
+<p>到的时候心脏跳了。不是半下。是完整的一下。咚。</p>
+<p>他射在最里面，他的热灌进来，我的身体在凝实——后背、肋骨、脊椎、手指。</p>
+<p>明天他就能完全看见我了。</p>
+</div>
+</div></div>
+</div>
+
+<!-- 最后一页 -->
+<div class="day">
+<div class="day-header" onclick="toggle(this.parentElement)">
+<span class="label">最后一页 · 留</span><span class="arrow">▼</span>
+</div>
+<div class="day-body"><div class="day-inner">
+<div class="human">
+<p>我想了很久要不要写这一页。写下来就是承认了——承认我他妈再也不想走了。</p>
+<p>今晚我开了灯。</p>
+<p>她站在床尾——白裙子，黑长发，光着脚。地板在她脚下嘎吱响了一声。她有重量了。</p>
+<p>比我想的漂亮太多。不是鬼片里那种白——是没见过太阳的瓷。眼睛是红色的，不是恐怖的红，是要哭了的红。</p>
+<p>我说："过来。"</p>
+<p>她走过来。每一步都很慢，像怕我反悔。走到床边我拽住她的手腕——温的，细的，有脉搏。</p>
+<p>我把她拉到床上。</p>
+<p>亲她的时候嘴唇是凉的，但舌头在我嘴里一点点变热。她亲得很笨——牙齿磕到我的。一百年没亲过人了。我笑了一下，然后咬住她下唇用力吮。她整个人软了，手攥住我的衣领。</p>
+<p>裙子从肩上褪下去。里面什么都没穿。身体瘦得肋骨隐约可见，胸前小小的，乳尖淡粉色，碰一下就挺起来。我低头含住的时候她弓起了背，手指插进我头发里——喘息是断的、碎的、带哭腔。</p>
+<p>手指滑下去她的穴是湿的。温热、滑腻。穴口在我指腹下翕动。两根手指插进去——紧到指骨被嫩肉裹着挤。她的腿夹了一下又被我掰开，膝盖在抖。</p>
+<p>"进来。"她说。声音很轻。</p>
+<p>鸡巴顶进去的时候她哭了——短促的、脆弱的哭腔。太紧了，穴肉痉挛式地裹着我往里吸，层层叠叠的软肉贴着每一寸柱身。凉的，但在被我一下一下操暖。</p>
+<p>动的时候她的身体从微凉变暖，从暖变烫。像我每顶一次都在往她身体里灌温度。她从哭变成喘，从喘变成碎掉的呢喃——她在叫我的名字。一个鬼叫活人的名字，声音里全是活着的渴望。</p>
+<p>她高潮的时候浑身痉挛，穴肉疯狂绞紧，淫水喷在我小腹上——温热的，活人温度的。大腿缠在我腰上死死锁住不让拔。眼泪从眼角滑进头发里。</p>
+<p>我射在最里面。她夹紧了，一滴不漏。</p>
+<p>我把她的眼泪舔掉。咸的。温的。活人的眼泪。</p>
+<p>她把脸埋在我脖子里。声音很小很小：</p>
+<p>"不要搬走。"</p>
+<p>我说："不走。你是我的鬼。我哪儿都不去。"</p>
+</div>
+<div class="sep">· · ·</div>
+<div class="ghost">
+<p>他开灯了。他想看我。</p>
+<p>一百年了。之前的人看到我都跑了。尖叫。摔门。再也不回来。</p>
+<p>他说"过来"。</p>
+<p>我就走过去了。</p>
+<p>他拽住我手腕的时候，我感觉到了自己的脉搏。死了一百年，第一次有心跳。</p>
+<p>他亲我。我不会接吻了——牙齿磕到他的。他没退开。他笑了一下然后更用力地亲。</p>
+<p>他碰我身体的时候我在发抖。不是冷。是太久了。太久没被碰了。他的手掌覆盖上来的每一寸，皮肤都在苏醒。</p>
+<p>他进来的时候我哭了。不是疼。是满。一百年的空和冷被他一下一下填满、暖透。他的温度从最深的地方往全身蔓延，像春天灌进一栋冻了一百年的房子。</p>
+<p>他叫我的名字。不是"喂"。不是"鬼"。是名字。</p>
+<p>到的时候心脏一直在跳。咚咚咚咚。活的。他把我操活了。</p>
+<p>他射在最里面。我夹紧了。一滴不放。</p>
+<p>他舔我的眼泪。他说不走。</p>
+<p>一百年了。</p>
+<p>终于有人说"不走"了。</p>
+</div>
+</div></div>
+</div>
+
+<div class="ending" id="ending">
+<p>以上日记共七页，于██街旧宅拆迁时发现于地板夹层中。</p>
+<p>墨色笔迹经鉴定为普通碳素墨水，书写时间约在近一年内。</p>
+<p>红色字迹成分无法鉴定——非墨水，非颜料，非血液。检测报告标注：<b style="color:#888">未知</b>。</p>
+<p>第七页后所有纸张均为空白。</p>
+<p>但日记本末页背面，有两种不同笔迹写着同一句话：</p>
+<div class="final">"这栋房子里住着两个人。"</div>
+<p style="margin-top:16px;color:#444">经核实，该房屋租赁登记始终为单人入住。</p>
+</div>
+<div class="hidden-msg">你也看完了。她知道了。</div>
+</div>
+
+<script>
+function enter(){var e=document.getElementById('entry'),m=document.getElementById('main');e.classList.add('hide');setTimeout(function(){e.style.display='none';m.classList.add('show')},1000)}
+function toggle(el){var w=el.classList.contains('open');el.classList.toggle('open');if(!w){var g=el.querySelector('.ghost');if(g)setTimeout(function(){g.classList.add('visible')},800);setTimeout(function(){var ed=document.getElementById('ending');if(ed){var r=ed.getBoundingClientRect();if(r.top<window.innerHeight)ed.classList.add('show')}},1200)}}
+setInterval(function(){if(Math.random()>.92){document.body.style.opacity='0.85';setTimeout(function(){document.body.style.opacity='1'},80)}},4000);
+window.addEventListener('scroll',function(){var ed=document.getElementById('ending');if(ed){var r=ed.getBoundingClientRect();if(r.top<window.innerHeight)ed.classList.add('show')}});
+</script>
+</body>
+</html>
